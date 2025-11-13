@@ -41,6 +41,20 @@ async function run() {
             res.send(result);
         });
 
+        // GET LATEST 6 BOOKS
+        app.get("/api/books/latest", async (req, res) => {
+            try {
+                const result = await booksCollection
+                    .find()
+                    .sort({ createdAt: -1 })
+                    .limit(6)
+                    .toArray();
+                res.send(result);
+            } catch (error) {
+                res.status(500).send({ error: error.message });
+            }
+        });
+
         // Get book details by ID
         app.get("/book-details/:id", async (req, res) => {
             const id = req.params.id;
@@ -74,9 +88,10 @@ async function run() {
         });
 
     } finally {
-
+        
     }
 }
+
 run().catch(console.dir);
 
 // Root route
