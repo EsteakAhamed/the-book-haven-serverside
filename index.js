@@ -32,7 +32,7 @@ async function run() {
         app.post("/add-book", async (req, res) => {
             const book = {
                 ...req.body,
-                createdAt: new Date() // ✅ Add this to track when book was added
+                createdAt: new Date()
             };
             const result = await booksCollection.insertOne(book);
             res.send(result);
@@ -87,6 +87,22 @@ async function run() {
         app.delete("/delete-book/:id", async (req, res) => {
             const id = req.params.id;
             const result = await booksCollection.deleteOne({ _id: new ObjectId(id) });
+            res.send(result);
+        });
+
+        // Add a comment
+        app.post("/comments", async (req, res) => {
+            const comment = req.body;
+            comment.createdAt = new Date();
+            const result = await client.db("bookHavenDB").collection("comments").insertOne(comment);
+            res.send(result);
+        });
+
+        // Get comments for a book
+        app.get("/comments/:bookId", async (req, res) => {
+            const bookId = req.params.bookId;
+            const result = await client.db("bookHavenDB").collection("comments")
+                .find({ bookId }).sort({ createdAt: -1 }).toArray();
             res.send(result);
         });
 
