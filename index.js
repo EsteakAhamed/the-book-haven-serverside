@@ -30,7 +30,10 @@ async function run() {
 
         // Add a new book
         app.post("/add-book", async (req, res) => {
-            const book = req.body;
+            const book = {
+                ...req.body,
+                createdAt: new Date() // ✅ Add this to track when book was added
+            };
             const result = await booksCollection.insertOne(book);
             res.send(result);
         });
@@ -88,7 +91,7 @@ async function run() {
         });
 
     } finally {
-        
+
     }
 }
 
