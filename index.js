@@ -24,7 +24,7 @@ let booksCollection;
 
 async function run() {
     try {
-        await client.connect();
+        //await client.connect();
         booksCollection = client.db("bookHavenDB").collection("books");
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
 
