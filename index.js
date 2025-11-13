@@ -115,7 +115,7 @@ run().catch(console.dir);
 
 // Root route
 app.get("/", (req, res) => {
-    res.send("The Book Haven server is running ABC");
+    res.send("The Book Haven server is running");
 });
 
 app.listen(port, () => {
